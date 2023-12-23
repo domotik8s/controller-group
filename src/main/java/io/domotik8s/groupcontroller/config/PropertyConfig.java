@@ -1,4 +1,4 @@
-package io.domotik8s.groupcontroller;
+package io.domotik8s.groupcontroller.config;
 
 import io.domotik8s.model.bool.BooleanProperty;
 import io.domotik8s.model.bool.BooleanPropertyList;

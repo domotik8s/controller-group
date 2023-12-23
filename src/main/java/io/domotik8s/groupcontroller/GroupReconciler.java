@@ -1,12 +1,10 @@
 package io.domotik8s.groupcontroller;
 
 import io.domotik8s.model.group.Group;
-import io.domotik8s.model.group.GroupList;
 import io.kubernetes.client.extended.controller.reconciler.Reconciler;
 import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.extended.controller.reconciler.Result;
 import io.kubernetes.client.informer.SharedIndexInformer;
-import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,18 +18,17 @@ public class GroupReconciler implements Reconciler {
 
     private Logger logger = LoggerFactory.getLogger(GroupReconciler.class);
 
-    @Qualifier("groupClient")
-    private final GenericKubernetesApi<Group, GroupList> client;
-
     @Qualifier("groupInformer")
     private final SharedIndexInformer<Group> informer;
 
+    private final GroupService groupService;
 
     @Override
     public Result reconcile(Request request) {
         String key = createKey(request);
         logger.trace("Handling resource {}", key);
-        // Group resource = informer.getIndexer().getByKey(key);
+        Group group = informer.getIndexer().getByKey(key);
+        groupService.refreshGroup(group);
         return new Result(false);
     }
 

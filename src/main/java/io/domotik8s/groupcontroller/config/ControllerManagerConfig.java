@@ -1,4 +1,4 @@
-package io.domotik8s.groupcontroller;
+package io.domotik8s.groupcontroller.config;
 
 import io.kubernetes.client.extended.controller.Controller;
 import io.kubernetes.client.extended.controller.ControllerManager;

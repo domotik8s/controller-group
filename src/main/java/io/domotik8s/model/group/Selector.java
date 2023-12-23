@@ -1,6 +1,5 @@
 package io.domotik8s.model.group;
 
-import io.domotik8s.groupcontroller.NumberPropertyListener;
 import io.domotik8s.model.Property;
 import io.domotik8s.model.PropertyState;
 import io.domotik8s.model.PropertyStatus;
@@ -11,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 

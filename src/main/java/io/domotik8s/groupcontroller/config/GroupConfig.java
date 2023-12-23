@@ -1,5 +1,6 @@
-package io.domotik8s.groupcontroller;
+package io.domotik8s.groupcontroller.config;
 
+import io.domotik8s.groupcontroller.GroupReconciler;
 import io.domotik8s.model.group.Group;
 import io.domotik8s.model.group.GroupList;
 import io.kubernetes.client.extended.controller.Controller;

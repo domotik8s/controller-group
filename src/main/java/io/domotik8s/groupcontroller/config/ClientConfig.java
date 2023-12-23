@@ -1,4 +1,4 @@
-package io.domotik8s.groupcontroller;
+package io.domotik8s.groupcontroller.config;
 
 import io.kubernetes.client.openapi.ApiClient;
 import org.springframework.context.annotation.Bean;
