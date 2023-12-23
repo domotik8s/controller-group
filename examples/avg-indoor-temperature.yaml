@@ -6,9 +6,14 @@ metadata:
     area: "House"
     name: "AvgTemperature"
 spec:
+  aggregation:
+    method: ArithmeticMean
   selector:
     type: CompositeSelector
     children:
       - type: LabelSelector
         name: name
         value: Temperature
+      - type: LabelSelector
+        name: area
+        value: House

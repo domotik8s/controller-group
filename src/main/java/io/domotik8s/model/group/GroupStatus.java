@@ -15,4 +15,6 @@ public class GroupStatus {
 
     private Set<PropertySelector> members;
 
+    private AggregationResult result;
+
 }

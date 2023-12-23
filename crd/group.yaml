@@ -49,11 +49,20 @@ spec:
                           value:
                             type: string
 
+                # AGGREGATION
+                aggregation:
+                  type: object
+                  properties:
+                    method:
+                      type: string
+                      enum: ["Sum", "ArithmeticMean"]
+
             # STATUS
             status:
               type: object
               properties:
-                # MEMBERGS
+
+                # MEMBERS
                 members:
                   type: array
                   items:
@@ -67,6 +76,14 @@ spec:
                         type: string
                       name:
                         type: string
+
+                # RESULT
+                result:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                  properties:
+                    value:
+                      x-kubernetes-preserve-unknown-fields: true
 
                 # LASTUPDATED
                 lastUpdated:
