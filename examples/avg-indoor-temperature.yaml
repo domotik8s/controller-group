@@ -1,0 +1,14 @@
+apiVersion: domotik8s.io/v1beta1
+kind: Group
+metadata:
+  name: avg-indoor-temperature
+  labels:
+    area: "House"
+    name: "AvgTemperature"
+spec:
+  selector:
+    type: CompositeSelector
+    children:
+      - type: LabelSelector
+        name: name
+        value: Temperature

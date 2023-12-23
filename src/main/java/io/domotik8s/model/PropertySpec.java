@@ -1,8 +1,10 @@
 package io.domotik8s.model;
 
-public interface PropertySpec<A extends PropertyAddress, ST extends PropertyState> {
+import java.util.Map;
 
-    A getAddress();
+public interface PropertySpec<ST extends PropertyState> {
+
+    Map<String, Object> getAddress();
 
     ST getState();
 

@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class NumberProperty<SP extends NumberPropertySpec> implements Property<SP, NumberPropertyStatus> {
+public class NumberProperty implements Property<NumberPropertySpec, NumberPropertyStatus> {
 
     private final String apiVersion = "domotik8s.io/v1beta1";
 
@@ -19,7 +19,7 @@ public abstract class NumberProperty<SP extends NumberPropertySpec> implements P
 
     private V1ObjectMeta metadata;
 
-    private SP spec;
+    private NumberPropertySpec spec;
 
     private NumberPropertyStatus status;
 

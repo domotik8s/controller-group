@@ -1,6 +1,6 @@
-package io.domotik8s.model.bool;
+package io.domotik8s.model.dev;
 
-import io.domotik8s.model.Property;
+import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,16 +11,16 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BooleanProperty implements Property<BooleanPropertySpec, BooleanPropertyStatus> {
+public class Device implements KubernetesObject {
 
     private final String apiVersion = "domotik8s.io/v1beta1";
 
-    private final String kind = "BooleanProperty";
+    private final String kind = "Device";
 
     private V1ObjectMeta metadata;
 
-    private BooleanPropertySpec spec;
+    private DeviceSpec spec;
 
-    private BooleanPropertyStatus status;
+    private DeviceStatus status;
 
 }

@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.domotik8s</groupId>
-    <artifactId>controller-knx</artifactId>
+    <artifactId>controller-group</artifactId>
     <version>0.0.1</version>
-    <name>controller-knx</name>
-    <description>Kubernetes Controller for KNX</description>
+    <name>controller-group</name>
+    <description>Kubernetes Controller for Groups</description>
     <properties>
         <java.version>21</java.version>
     </properties>

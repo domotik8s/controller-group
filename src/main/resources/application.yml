@@ -1,8 +1,11 @@
+server:
+  port: 8082
+
 logging:
   level:
     root: INFO
     "[io.kubernetes]": TRACE
-    "[org.springframework]": INFO
+    "[org.springframework]": DEBUG
     "[io.domotik8s]": DEBUG
 
 management:
@@ -15,12 +18,3 @@ management:
       enabled: true
     readinessState:
       enabled: true
-
-knx:
-  instance: knx
-  connection:
-    ip:
-      remoteAddress: 10.0.1.5
-      remotePort: 3671
-      localAddress: 10.0.20.57
-      localPort: 32123
