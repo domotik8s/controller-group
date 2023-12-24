@@ -13,7 +13,7 @@ spec:
     children:
       - type: LabelSelector
         name: name
-        value: Temperature
+        labelValue: Temperature
       - type: LabelSelector
         name: area
-        value: House
+        labelValue: House

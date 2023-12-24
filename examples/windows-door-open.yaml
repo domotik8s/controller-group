@@ -1,0 +1,22 @@
+apiVersion: domotik8s.io/v1beta1
+kind: Group
+metadata:
+  name: open-windows
+  labels:
+    area: "House"
+    name: "OpenWindows"
+spec:
+  selector:
+    type: CompositeSelector
+    logic: Or
+    children:
+      - type: LabelSelector
+        name: name 
+        labelValue: window
+        comparator: Contains
+        ignoreCase: true
+      - type: LabelSelector
+        name: area
+        labelValue: window
+        comparator: Contains
+        ignoreCase: true

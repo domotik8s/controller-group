@@ -26,13 +26,28 @@ spec:
                 selector:
                   type: object
                   properties:
+
+                    # shared
                     type:
                       type: string
                       enum: ["LabelSelector", "ValueSelector", "CompositeSelector"]
+
+                    # label
                     name:
                       type: string
+                    labelValue:
+                      type: string
+                    comparator:
+                      type: string
+                      enum: [ "Equals", "Contains" ]
+                    ignoreCase:
+                      type: boolean
+
+                    # value
                     value:
                       type: string
+
+                    # composite
                     logic:
                         type: string
                         enum: [ "And", "Or" ]
@@ -41,13 +56,57 @@ spec:
                       items:
                         type: object
                         properties:
+
+                          # shared
                           type:
                             type: string
-                            enum: ["LabelSelector", "ValueSelector"]
+                            enum: ["LabelSelector", "ValueSelector", "CompositeSelector"]
+
+                          # label
                           name:
                             type: string
+                          labelValue:
+                            type: string
+                          comparator:
+                            type: string
+                            enum: [ "Equals", "Contains" ]
+                          ignoreCase:
+                            type: boolean
+
+                          # value
                           value:
                             type: string
+
+                          # composite
+                          logic:
+                            type: string
+                            enum: [ "And", "Or" ]
+                          children:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+
+                                # shared
+                                type:
+                                  type: string
+                                  enum: ["LabelSelector", "ValueSelector", "CompositeSelector"]
+
+                                # label
+                                name:
+                                  type: string
+                                labelValue:
+                                  type: string
+                                comparator:
+                                  type: string
+                                  enum: [ "Equals", "Contains" ]
+                                ignoreCase:
+                                  type: boolean
+
+                                # value
+                                value:
+                                  type: string
+
 
                 # AGGREGATION
                 aggregation:

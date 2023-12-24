@@ -13,6 +13,7 @@ import io.domotik8s.model.num.NumberPropertyStatus;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
+import io.kubernetes.client.util.generic.KubernetesApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,15 +48,18 @@ public class GroupService {
             }
         });
 
-        if (selector.select(property)) {
+        boolean selected = selector.select(property);
+        if (selected) {
             GroupStatus status = Optional.ofNullable(group).map(Group::getStatus).orElse(new GroupStatus());
             group.setStatus(status);
 
             Set<PropertySelector> members = Optional.ofNullable(status.getMembers()).orElse(new HashSet<>());
             status.setMembers(members);
 
-            if (members.add(PropertySelector.of(property))){
-                groupClient.updateStatus(group, (g) -> g.getStatus());
+            boolean added = members.add(PropertySelector.of(property));
+            if (added) {
+                KubernetesApiResponse<Group> response = groupClient.updateStatus(group, (g) -> g.getStatus());
+                logger.debug("Updating group returned response: {} {}", response.getHttpStatusCode());
                 logger.debug("Added property {} to group {}", property.getMetadata().getName(), group.getMetadata().getName());
                 updateGroupAggregation(group);
             }

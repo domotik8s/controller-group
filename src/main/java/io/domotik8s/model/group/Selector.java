@@ -21,25 +21,54 @@ public class Selector {
     private Logger logger = LoggerFactory.getLogger(Selector.class);
 
 
-    public static enum Type {
+    public enum Type {
         LabelSelector, ValueSelector, CompositeSelector
     }
 
-    public static enum Logic {
-        And, Or
-    }
 
+    /*
+      SHARED
+     */
 
     private Type type;
 
+    /*
+      LabelSelector
+     */
+
     private String name;
 
+
+    private String labelValue;
+
+    public enum Comparator { Equals, Contains }
+
+    private Comparator comparator;
+
+    private boolean ignoreCase = false;
+
+
+    /*
+      VALUE
+     */
+
     private String value;
+
+
+    /*
+      COMPOSITE
+     */
+
+    public enum Logic { And, Or }
 
     private Logic logic;
 
     private Set<Selector> children;
 
+
+    /*
+      METHODS
+     */
 
     public boolean select(Property property) {
         if (Type.LabelSelector == type)
@@ -56,7 +85,17 @@ public class Selector {
                 .map(Property::getMetadata)
                 .map(V1ObjectMeta::getLabels)
                 .orElse(Map.of());
-        boolean retVal = labels.get(name) != null && labels.get(name).equals(value);
+
+        String propertyLabelValue = labels.get(name);
+        if (propertyLabelValue == null) return false;
+
+        // default comparator: Equals
+        boolean retVal = ignoreCase == true ? propertyLabelValue.equalsIgnoreCase(labelValue) : propertyLabelValue.equals(labelValue);
+        if (comparator == Comparator.Contains) {
+            if (ignoreCase == true) retVal = propertyLabelValue.toLowerCase().contains(labelValue.toLowerCase());
+            else                    retVal = propertyLabelValue.contains(labelValue);
+        }
+
         logger.trace("Label selector result for property {}: {}", property.getMetadata().getName(), retVal);
         return retVal;
     }
@@ -66,7 +105,8 @@ public class Selector {
                 .map(Property::getStatus)
                 .map(PropertyStatus::getState)
                 .map(PropertyState::getValue);
-        boolean retVal = value.equals(valueOpt.get());
+
+        boolean retVal = valueOpt.isPresent() && value.equals(valueOpt.get());
         logger.trace("Value selector result for property {}: {}", property.getMetadata().getName(), retVal);
         return retVal;
     }
