@@ -41,26 +41,33 @@ public class GroupService {
     private final SharedIndexInformer<NumberProperty> numberPropertyInformer;
 
 
-    public void addPropertyToGroup(Group group, Property property) {
+    public void addOrRemovePropertyToGroup(Group group, Property property) {
         Selector selector = Optional.ofNullable(group).map(Group::getSpec).map(GroupSpec::getSelector).orElse(new Selector() {
             public boolean select(Property property) {
             return false;
             }
         });
 
-        boolean selected = selector.select(property);
-        if (selected) {
-            GroupStatus status = Optional.ofNullable(group).map(Group::getStatus).orElse(new GroupStatus());
-            group.setStatus(status);
+        GroupStatus status = Optional.ofNullable(group).map(Group::getStatus).orElse(new GroupStatus());
+        group.setStatus(status);
 
-            Set<PropertySelector> members = Optional.ofNullable(status.getMembers()).orElse(new HashSet<>());
-            status.setMembers(members);
+        Set<PropertySelector> members = Optional.ofNullable(status.getMembers()).orElse(new HashSet<>());
+        status.setMembers(members);
 
+        if (selector.select(property)) {
             boolean added = members.add(PropertySelector.of(property));
             if (added) {
                 KubernetesApiResponse<Group> response = groupClient.updateStatus(group, (g) -> g.getStatus());
                 logger.debug("Updating group returned response: {} {}", response.getHttpStatusCode());
                 logger.debug("Added property {} to group {}", property.getMetadata().getName(), group.getMetadata().getName());
+                updateGroupAggregation(group);
+            }
+        } else {
+            boolean removed = members.remove(PropertySelector.of(property));
+            if (removed) {
+                KubernetesApiResponse<Group> response = groupClient.updateStatus(group, (g) -> g.getStatus());
+                logger.debug("Updating group returned response: {} {}", response.getHttpStatusCode());
+                logger.debug("Removed property {} to group {}", property.getMetadata().getName(), group.getMetadata().getName());
                 updateGroupAggregation(group);
             }
         }

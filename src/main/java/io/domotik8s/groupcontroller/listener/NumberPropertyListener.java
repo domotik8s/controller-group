@@ -40,25 +40,19 @@ public class NumberPropertyListener implements ResourceEventHandler<NumberProper
     @Override
     public void onAdd(NumberProperty property) {
         List<Group> allGroups = groupInformer.getIndexer().list();
-        allGroups.forEach(group -> groupService.addPropertyToGroup(group, property));
+        allGroups.forEach(group -> groupService.addOrRemovePropertyToGroup(group, property));
     }
 
     @Override
     public void onUpdate(NumberProperty before, NumberProperty after) {
         List<Group> allGroups = groupInformer.getIndexer().list();
-        allGroups.forEach(group -> groupService.addPropertyToGroup(group, after));
+        allGroups.forEach(group -> groupService.addOrRemovePropertyToGroup(group, after));
     }
 
     @Override
     public void onDelete(NumberProperty property, boolean b) {
         List<Group> allGroups = groupInformer.getIndexer().list();
         allGroups.forEach(group -> groupService.removePropertyFromGroup(group, property));
-    }
-
-
-    private void add(NumberProperty property) {
-        List<Group> allGroups = groupInformer.getIndexer().list();
-        allGroups.forEach(group -> groupService.addPropertyToGroup(group, property));
     }
 
 }

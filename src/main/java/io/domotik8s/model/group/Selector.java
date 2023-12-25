@@ -106,7 +106,7 @@ public class Selector {
                 .map(PropertyStatus::getState)
                 .map(PropertyState::getValue);
 
-        boolean retVal = valueOpt.isPresent() && value.equals(valueOpt.get());
+        boolean retVal = valueOpt.isPresent() && value.equals(valueOpt.get().toString());
         logger.trace("Value selector result for property {}: {}", property.getMetadata().getName(), retVal);
         return retVal;
     }

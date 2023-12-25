@@ -8,15 +8,20 @@ metadata:
 spec:
   selector:
     type: CompositeSelector
-    logic: Or
+    logic: And
     children:
-      - type: LabelSelector
-        name: name 
-        labelValue: window
-        comparator: Contains
-        ignoreCase: true
-      - type: LabelSelector
-        name: area
-        labelValue: window
-        comparator: Contains
-        ignoreCase: true
+      - type: ValueSelector
+        value: "true"
+      - type: CompositeSelector
+        logic: Or
+        children:
+          - type: LabelSelector
+            name: name 
+            labelValue: window
+            comparator: Contains
+            ignoreCase: true
+          - type: LabelSelector
+            name: area
+            labelValue: window
+            comparator: Contains
+            ignoreCase: true

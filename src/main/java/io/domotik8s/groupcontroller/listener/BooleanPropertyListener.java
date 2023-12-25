@@ -41,13 +41,13 @@ public class BooleanPropertyListener implements ResourceEventHandler<BooleanProp
     @Override
     public void onAdd(BooleanProperty property) {
         List<Group> allGroups = groupInformer.getIndexer().list();
-        allGroups.forEach(group -> groupService.addPropertyToGroup(group, property));
+        allGroups.forEach(group -> groupService.addOrRemovePropertyToGroup(group, property));
     }
 
     @Override
     public void onUpdate(BooleanProperty before, BooleanProperty after) {
         List<Group> allGroups = groupInformer.getIndexer().list();
-        allGroups.forEach(group -> groupService.addPropertyToGroup(group, after));
+        allGroups.forEach(group -> groupService.addOrRemovePropertyToGroup(group, after));
     }
 
     @Override
