@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -16,36 +15,56 @@ import java.util.stream.Collectors;
 public class Aggregation {
 
     public enum Method {
-        Sum, ArithmeticMean
+        Min, Max, Sum, ArithmeticMean
     }
 
     private Method method;
 
 
     public Object aggregate(List<Object> values) {
-        if (method == Method.Sum)
+        if (method == Method.Min)
+            return min(values);
+        else if (method == Method.Max)
+            return max(values);
+        else if (method == Method.Sum)
             return sum(values);
         else if (method == Method.ArithmeticMean)
             return aMean(values);
         return null;
     }
 
-    private Double sum(List<Object> values) {
-        List<Double> numbers = values.stream()
+    private List<Double> filterNumbers(List<Object> values) {
+        return values.stream()
                 .filter(v -> v instanceof Number)
                 .map(v -> ((Number) v).doubleValue())
                 .collect(Collectors.toList());
-        return numbers.stream()
+    }
+
+    private Double min(List<Object> values) {
+        return filterNumbers(values).stream()
+                .mapToDouble(Double::doubleValue)
+                .min()
+                .orElse(Double.NaN);
+    }
+
+    private Double max(List<Object> values) {
+        return filterNumbers(values).stream()
+                .mapToDouble(Double::doubleValue)
+                .max()
+                .orElse(Double.NaN);
+    }
+
+    private Double sum(List<Object> values) {
+        return filterNumbers(values).stream()
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }
 
     private Double aMean(List<Object> values) {
-        List<Double> numbers = values.stream()
-                .filter(v -> v instanceof Number)
-                .map(v -> ((Number) v).doubleValue())
-                .collect(Collectors.toList());
-        double sum = sum(values);
+        List<Double> numbers = filterNumbers(values);
+        double sum = filterNumbers(values).stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
         long count = numbers.size();
         return count > 0 ? sum / count : 0;
     }

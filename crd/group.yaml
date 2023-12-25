@@ -114,7 +114,7 @@ spec:
                   properties:
                     method:
                       type: string
-                      enum: ["Sum", "ArithmeticMean"]
+                      enum: ["Min", "Max", "Sum", "ArithmeticMean"]
 
             # STATUS
             status:
